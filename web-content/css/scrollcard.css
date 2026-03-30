@@ -1,0 +1,58 @@
+.scroll-container {
+  display: flex !important;
+  flex-direction: row !important; /* Forces horizontal */
+  flex-wrap: nowrap !important;   /* Prevents vertical stacking */
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 20px 45vw 100px; 
+  gap: 60px;
+  align-items: center;
+  height: 50vh;
+  scrollbar-width: none;
+
+  /*Bring the cards to the top of the container, so they can overlap the edges when enlarged*/
+
+
+  -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+}
+
+.scroll-container::-webkit-scrollbar { display: none; }
+
+.gallery-card {
+  flex: 0 0 300px;  /* CRITICAL: Prevents cards from shrinking/collapsing */
+  min-width: 300px; /* Double-insurance for horizontal layout */
+  transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1), opacity 0.5s;
+  transform: scale(0.85); /* Starting size */
+  opacity: 0.5;
+  cursor: pointer;
+  will-change: transform;
+}
+
+/* Enlargement Class */
+.scroll-container .gallery-card.active {
+  transform: scale(1.4) !important;
+  opacity: 1 !important;
+  z-index: 100;
+}
+
+.gallery-card img {
+  width: 100%;
+  pointer-events: none; /* Let the card handle the mouse events */
+}
+
+.gallery-card a {
+    position: relative;
+    display: block;
+}
+.label {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px 10px 10px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    border-radius: 0 0 12px 12px;
+    font-weight: bold;
+}
+
