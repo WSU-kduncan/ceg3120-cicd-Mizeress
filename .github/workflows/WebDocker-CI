@@ -1,0 +1,13 @@
+name: WebContent-CI
+
+on:
+	push:
+		branches: [ main ]
+
+jobs:
+	push-to-dockerhub:
+		runs-on: ubuntu-latest
+		
+		steps:
+
+
