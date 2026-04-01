@@ -27,6 +27,15 @@ Pull from the httpd base image and copy web-content folder to the default direct
 *Link to Dockerhub repo*: https://hub.docker.com/repository/docker/malliasm/portfolio/general
 
 ## Github Actions 
+- Configure GitHub Repository Secrets
+  - How to create a PAT for authentication:
+      - 
+- CI with GitHub Actions
+    - Explanation of workflow trigger
+    - Explanation of workflow steps
+    - Explanation / highlight of values that need updated if used in a different repository
+    - **Link** to workflow file: 
+- Testing & Validating
 
 ## Semantic Versioning
 
