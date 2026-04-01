@@ -37,9 +37,13 @@ Pull from the httpd base image and copy web-content folder to the default direct
     - Make a secret for your username and token
 - CI with GitHub Actions
     - Explanation of workflow trigger
+        - The workflow triggers whenever a push is made to the main branch.
     - Explanation of workflow steps
+        - First, the workflow logs in to dockerhub using the secret credentials
+        - Then, it sets up the Docker Build engine. This allows for a more powerful build step rather then relying on the default driver. 
     - Explanation / highlight of values that need updated if used in a different repository
-    - **Link** to workflow file: 
+        - These values should all be fine in another repository if you use the same secret names and dockerhub path. No checkout is neccessary here since the build kit automatically uses the default context.
+    - **Link** to workflow file: [Workflow](.github/workflows/WebDocker-CI.yml)
 - Testing & Validating
 
 ## Semantic Versioning
