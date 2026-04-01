@@ -45,6 +45,11 @@ Pull from the httpd base image and copy web-content folder to the default direct
         - These values should all be fine in another repository if you use the same secret names and dockerhub path. No checkout is neccessary here since the build kit automatically uses the default context.
     - **Link** to workflow file: [Workflow](.github/workflows/WebDocker-CI.yml)
 - Testing & Validating
+    - How to test that your workflow did its tasking
+        - Check Github Actions pane to see if the action succeeded. Check Dockerhub to verify the push was recieved. Verify further in the next step.
+    - How to verify that the image in DockerHub works when a container is run using the image
+        - Pull the docker repo and run the container. Test thoroughly - ideally you would automate some tests as well as some manual verification. 
+    - Link to your DockerHub repository: [Repo](https://hub.docker.com/repository/docker/malliasm/portfolio/general) *Sort of defeats the purpose of putting username in a secret*
 
 ## Semantic Versioning
 
