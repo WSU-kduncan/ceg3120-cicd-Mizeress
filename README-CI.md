@@ -29,13 +29,12 @@ Pull from the httpd base image and copy web-content folder to the default direct
 ## Github Actions 
 - Configure GitHub Repository Secrets
 - How to create a PAT for authentication:
-    - *Note: Dockerhub's UI seems to have updated a bit since the previous section*
-        - Go to settings > Personal Access Tokens
-        - Select `Generate New Token`
-        - Give it a descriptive name: `Github Docker Token and set permissions.
-        - We want Github to be able to pull and make edits and push back. So we want Read Write permissions.
-        - Navigate to your repo's setting under Security and Quality > Secrets and Variables > Actions > New Repository Secret
-        - Make a secret for your username and token
+    - Go to settings > Personal Access Tokens
+    - Select `Generate New Token`
+    - Give it a descriptive name: `Github Docker Token and set permissions.
+    - We want Github to be able to pull and make edits and push back. So we want Read Write permissions.
+    - Navigate to your repo's setting under Security and Quality > Secrets and Variables > Actions > New Repository Secret
+    - Make a secret for your username and token
 - CI with GitHub Actions
     - Explanation of workflow trigger
     - Explanation of workflow steps
