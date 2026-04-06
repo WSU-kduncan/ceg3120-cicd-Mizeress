@@ -1,5 +1,10 @@
 # Github Actions
 
+## CI Project Overview
+The goal of this project is to implement a continuous integration pipeline for a simple html website with semantic versioning of the Docker Repo based on Git Tagging. This project uses official github actions for github and docker to build, tag, and push the docker container from the repo's Dockerfile. 
+
+![Diagram](CI_Diagram.png)
+
 ## Web Service Container
 Pulls the httpd official container and exposes my personal portfolio website on port 80.
 
@@ -76,4 +81,11 @@ Generating tags:
     - [Dockerhub Repo](https://hub.docker.com/repository/docker/malliasm/portfolio/tags)
     - Once again, ideally you would have a few automated tests that run here that pull the image and verify it runs properly. 
 
-## Project Decription & Diagram
+# Resources
+Github Actions - These essentially amount to my entire resource pool when combined with Course Repo Info:
+- Docker Build & Push: https://github.com/marketplace/actions/build-and-push-docker-images
+- Docker Login: https://github.com/marketplace/actions/docker-login
+- Docker Setup Buildx: https://github.com/marketplace/actions/docker-setup-buildx
+- Docker Metadata: https://github.com/marketplace/actions/docker-metadata-action
+
+Course Repo and Lecure Information
