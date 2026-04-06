@@ -1,0 +1,186 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  CEG3120 - Project 5 CloudFormation Template - Mallia
+
+Parameters:
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+
+  HomeIP: 
+    Description: 'CIDR block for your home IP address to allow SSH & ICMP access. If unknown, edit security rules after build.'
+    Type: String
+    MinLength: '9' # Example match: 1.1.1.1/0
+    MaxLength: '18' # Example match: 255.255.255.255/32
+    Default: 0.0.0.0/32 # Default to an invalid IP for security purposes
+    AllowedPattern: '(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})'
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+
+Mappings:
+  AWSRegionAMI: 
+    us-east-1:   # N. Virginia - default for AWS Academy accounts
+      HVM64: ami-02dfbd4ff395f2a1b # Amazon Linux AMI
+
+
+Resources:
+  # VPC
+  VPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      # CIDR block for the VPC
+      CidrBlock: 192.168.0.0/23
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: Mallia-Project5-VPC
+
+  SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref VPC
+      GroupDescription: Allow SSH at Home and WSU, allow all in VPC, allow all out
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: Mallia-Project5-SG
+      SecurityGroupIngress:
+        - IpProtocol: tcp # Allow SSH from home IP (SSHLocation parameter)
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref HomeIP
+        - IpProtocol: tcp # Allow SSH from WSU CIDR
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 130.108.0.0/16  # WSU CIDR
+        - IpProtocol: icmp  # Allow all ICMP in VPC
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 192.168.0.0/24  # VPC CIDR
+        - IpProtocol: icmp # Allow ICMP from Home
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref HomeIP
+        - IpProtocol: icmp # Allow ICMP from WSU
+          FromPort: -1
+          ToPort: -1
+          CidrIp: 130.108.0.0/16  # WSU CIDR
+        - IpProtocol: tcp # Allow all HTTP on port 80 traffic
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0  
+        - IpProtocol: tcp # Allow HTTP on port 8080 from anywhere
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp # Allow SSH from within the VPC
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 192.168.0.0/23  # VPC CIDR
+
+  # Subnet
+  Subnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 192.168.0.0/24
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: Mallia-Project5-Subnet
+
+  # Internet Gateway
+  InternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: Mallia-Project5-IGW
+
+  AttachGateway:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+  
+  # Route Table
+  RouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: Mallia-Project5-RouteTable
+
+  Route:
+    Type: 'AWS::EC2::Route'
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  SubnetRouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref Subnet
+      RouteTableId: !Ref RouteTable
+
+  # Elastic IP
+  AmazonLinuxIPAddress:
+    Type: 'AWS::EC2::EIP'
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+      InstanceId: !Ref PublicAmazonLinuxInstance
+
+  
+  # ----------
+  #  INSTANCE
+  # ----------
+  PublicAmazonLinuxInstance:
+    Type: 'AWS::EC2::Instance'
+    DependsOn: AttachGateway
+    Properties:
+      # ImageId pulls from the mapping defined above based on the region the stack is deployed in. This allows the template to be used in multiple regions without modification as long as the mapping is updated with the correct AMI ID for each region.
+      ImageId: !FindInMap [AWSRegionAMI, !Ref "AWS::Region", HVM64]
+      InstanceType: t2.medium
+      KeyName: !Ref KeyName
+      Tags:
+        - Key: Application
+          Value: !Ref 'AWS::StackId'
+        - Key: Name
+          Value: Mallia-Project5-Instance
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeSize: 30 # 30 GB root volume
+            VolumeType: gp3
+            DeleteOnTermination: true
+      NetworkInterfaces:
+        - GroupSet:
+            - !Ref SecurityGroup
+          AssociatePublicIpAddress: 'false' # We're using an EIP instead of auto-assigned public IP
+          DeviceIndex: '0'
+          DeleteOnTermination: 'true'
+          SubnetId: !Ref Subnet
+          PrivateIpAddress: 192.168.0.30 # Static private IP within the subnet CIDR
+
+      # Replace with proper startup script
+      UserData:
+        Fn::Base64:
+          !Sub |
+          #!/bin/bash -xe
+          echo "Hello World"
+
+
+
+
+           
