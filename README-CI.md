@@ -74,5 +74,6 @@ Generating tags:
     - Check dockerhub for the appropriate tags
     - Pull the image and check change is present. 
     - [Dockerhub Repo](https://hub.docker.com/repository/docker/malliasm/portfolio/tags)
+    - Once again, ideally you would have a few automated tests that run here that pull the image and verify it runs properly. 
 
 ## Project Decription & Diagram
