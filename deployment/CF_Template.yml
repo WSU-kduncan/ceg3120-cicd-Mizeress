@@ -179,6 +179,12 @@ Resources:
           !Sub |
           #!/bin/bash -xe
           echo "Hello World"
+          # Install Docker
+          # Start Docker service
+          # Add ec2-user to the docker group for non-sudo access
+          # Wget the container swap script and place it in /usr/local/bin
+          # Update permissions
+          
 
 
 
