@@ -46,10 +46,11 @@ Pull from the httpd base image and copy web-content folder to the default direct
     - **Link** to workflow file: [Workflow](.github/workflows/WebDocker-CI.yml)
 - Testing & Validating
     - How to test that your workflow did its tasking
+        - Make a change to the website
         - Check Github Actions pane to see if the action succeeded. Check Dockerhub to verify the push was recieved. Verify further in the next step.
     - How to verify that the image in DockerHub works when a container is run using the image
-        - Pull the docker repo and run the container. Test thoroughly - ideally you would automate some tests as well as some manual verification. 
-    - Link to your DockerHub repository: [Repo](https://hub.docker.com/repository/docker/malliasm/portfolio/general) *Sort of defeats the purpose of putting username in a secret*
+        - Pull the docker repo and run the container. Check that your change is present. Test thoroughly - ideally you would automate some tests as well as some manual verification. 
+    - Link to your DockerHub repository: [Repo](https://hub.docker.com/repository/docker/malliasm/portfolio/general)
 
 ## Semantic Versioning
 
