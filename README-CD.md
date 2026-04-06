@@ -50,4 +50,35 @@ Testing
 
 Link to Bash Script: [DockerSwap](deployment/DockerSwap.sh)
 
+## Part 2 - Listen
+Documenation
+
+In README-CD.md, include the following details:
+
+    Configuring a webhook Listener on EC2 Instance
+        How to install adnanh's webhook to the EC2 instance
+        How to verify successful installation
+        Summary of the webhook definition file
+        How to verify definition file was loaded by webhook
+        How to verify webhook is receiving payloads that trigger it
+            how to monitor logs from running webhook
+            what to look for in docker process views
+        LINK to definition file in repository
+    Configure a webhook Service on EC2 Instance
+        Summary of webhook service file contents
+        How to enable and start the webhook service
+        How to verify webhook service is capturing payloads and triggering bash script
+        LINK to service file in repository
+
+### Configuring a webhook Listener on EC2 Instance
+How to install adnanh's webhook to the instance:
+- Download Webhook
+    - `wget https://github.com/adnanh/webhook/releases/download/2.8.3/webhook-linux-amd64.tar.gz`
+- Extract the file
+    - `tar -xzf webhook-linux-amd64.tar.gz`
+- Move webhook to /usr/local/bin
+    - `mv webhook-linux-amd64/webhook /usr/local/bin/   
+
+Verify Install:
+- `webhook -version`
 
