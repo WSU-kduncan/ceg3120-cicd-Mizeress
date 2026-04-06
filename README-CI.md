@@ -53,5 +53,26 @@ Pull from the httpd base image and copy web-content folder to the default direct
     - Link to your DockerHub repository: [Repo](https://hub.docker.com/repository/docker/malliasm/portfolio/general)
 
 ## Semantic Versioning
+Generating tags:
+- view git tags:
+    - `git tag`
+- Generate tag:
+    - `git tag <tagname>`
+- Github Action
+    - Workflow trigger:
+        - This workflow triggers on a push of a tag in the form of v*.*.*
+    - Steps:
+        - Login to dockerhub
+        - Setup the docker build engine (note this also checks out the repo)
+        - Tag the image using metadata action
+        - Build and push the image.
+    - This version is also agnostic of the repository it is in. The only change that need be made is the name of the image placed after the username in the path for the repo, and that is only if you wish to use a different repo. That could also be broken out into an environment variable to make this workflow entirely agnostic. 
+- Testing & Validating
+    - Make a change to the site content
+    - Commit and push a tag to the repo
+    - Verify the action completes properly
+    - Check dockerhub for the appropriate tags
+    - Pull the image and check change is present. 
+    - [Dockerhub Repo](https://hub.docker.com/repository/docker/malliasm/portfolio/tags)
 
 ## Project Decription & Diagram
