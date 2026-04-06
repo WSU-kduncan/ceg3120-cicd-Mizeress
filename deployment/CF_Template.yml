@@ -181,6 +181,14 @@ Resources:
           # Wget the container swap script and place it in /usr/local/bin
           # Update permissions
 
+          # Pull initial image and run container
+
+          # Download Webhook
+          # wget https://github.com/adnanh/webhook/releases/download/2.8.3/webhook-linux-amd64.tar.gz
+          # tar -xzf webhook-linux-amd64.tar.gz
+          # Move webhook to /usr/local/bin
+          # mv webhook-linux-amd64/webhook /usr/local/bin/
+
 
 
 
