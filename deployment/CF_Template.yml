@@ -75,10 +75,6 @@ Resources:
           FromPort: 8080
           ToPort: 8080
           CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp # Allow SSH from within the VPC
-          FromPort: 22
-          ToPort: 22
-          CidrIp: 192.168.0.0/23  # VPC CIDR
 
   # Subnet
   Subnet:
@@ -184,7 +180,7 @@ Resources:
           # Add ec2-user to the docker group for non-sudo access
           # Wget the container swap script and place it in /usr/local/bin
           # Update permissions
-          
+
 
 
 
