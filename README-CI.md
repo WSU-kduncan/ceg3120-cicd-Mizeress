@@ -1,4 +1,4 @@
-# Github Actions
+# Continuous Integration
 
 ## CI Project Overview
 The goal of this project is to implement a continuous integration pipeline for a simple html website with semantic versioning of the Docker Repo based on Git Tagging. This project uses official github actions for github and docker to build, tag, and push the docker container from the repo's Dockerfile. 

@@ -82,3 +82,33 @@ How to install adnanh's webhook to the instance:
 Verify Install:
 - `webhook -version`
 
+Webhook Definition File:
+- Named `redeploy-webhook`, this hook runs the DockerSwap script to swap the running image with the latest image available on dockerhub.
+- Checks that the repository name matches my expected repo before triggering.
+- TODO add some verification that the request comes from dockerhub
+
+Verify webhook loads the file:
+- `webhook -hooks /etc/webhook.conf -verbose`
+    - Verify output
+
+How to verify webhook is recieving payloads that trigger it:
+    - Monitor logs from running webhook (with my setup)
+        - My service log: `tail -f /var/log/webhook.log`
+        - Manual command: $ `/path/to/webhook -hooks hooks.json -verbose` and monitor output
+    - What to look for in docker process views
+        - Look for containers that have been newly created. This verifies that the swap script has recently rolled over the running container. 
+    - [Definition File](/deployment/hooks.json)
+
+Configure a webhook service file:
+    - Summary of webhook service contents
+        - Load after network is up,
+        - Execute the webhook command
+        - Redirect output to log file
+    - How to enable and start the webhook service
+        - Place in `/etc/systemd/system/`
+        - Run: `sudo systemctl daemon-reload `
+        - Run: `sudo systemctl enable web-hook.service`
+    - How to verify webhook service is capturing payloads and triggering bash script:
+        - My service log: `tail -f /var/log/webhook.log`
+    - [Service File](deployment/web-hook.service)
+

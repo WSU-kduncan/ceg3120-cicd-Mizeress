@@ -1,0 +1,29 @@
+[
+    {
+        "id": "redeploy-webhook",
+        "execute-command": "/usr/local/bin/DockerSwap",
+        "pass-arguments-to-command": [
+            { "source": "string", "name": "-i" },
+            { "source": "string", "name": "malliasm/portfolio" },
+            { "source": "string", "name": "-c" },
+            { "source": "string", "name": "portfolio" }
+        ],
+        "command-working-directory": "/var/webhook",
+        "response-message": "Executing deploy script\n",
+        "trigger-rule": {
+            "and": [
+                {
+                    "match": {
+                        "type": "value",
+                        "value": "malliasm/portfolio",
+                        "parameter": {
+                            "source": "payload",
+                            "name": "repository.repo_name"                        
+                        }
+                    }   
+                }
+
+            ]        
+        }
+    }
+]

@@ -22,16 +22,20 @@ while getopts ":i:c:" opt; do
     esac
 done
 
+echo "Pulling image: ${image}"
 # Pull the latest image from the repository
 docker pull ${image}
 
 # Stop the currently running container
 docker stop ${containerName}
+echo "Stopped container: ${containerName}"
 
 # Remove the stopped container
 docker rm ${containerName}
+echo "Removed container: ${containerName}"
 
 # Run the new container
-docker run -d --name ${containerName} -p 80:80 ${image}
+docker run -d --name ${containerName} -p 80:80 --restart=always ${image}
+echo "Started new container: ${containerName} with image: ${image}"
 
 exit 0
