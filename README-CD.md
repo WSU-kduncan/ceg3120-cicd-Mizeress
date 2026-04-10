@@ -95,7 +95,6 @@ Verify webhook loads the file:
 
 How to verify webhook is recieving payloads that trigger it:
     - Monitor logs from running webhook (with my setup)
-        - My service log: `tail -f /var/log/webhook.log`
         - Manual command: $ `/path/to/webhook -hooks hooks.json -verbose` and monitor output
     - What to look for in docker process views
         - Look for containers that have been newly created. This verifies that the swap script has recently rolled over the running container. 
