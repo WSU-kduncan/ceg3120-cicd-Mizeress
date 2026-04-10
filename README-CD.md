@@ -1,5 +1,24 @@
 # Continuous Deployment
 
+# Overview
+In README-CI.md, add to the top of the document the following details:
+
+Continuous Deployment Project Overview
+- Goal: Whenever a new image tag is pushed to dockerhub, pull the image tagged latest and redeploy
+        
+- Tools: 
+    - Adnanh's Webhook: Listens for the Docker Webhook and calls relevant script
+    - Docker Webhooks: When a tag is pushed to the repo, send a http alert to an endpoint
+    - Docker: Containerization for serving the web app and managing containers
+    - AWS: Server resources
+    - Diagram: ![CD-Diagram](deployment/CD-Diagram.png)
+
+Resources: 
+- Anah's Repo: [Github/Adnanh](https://github.com/adnanh/webhook)
+- Service Creation: [LinuxHandbook - SystemD Services](https://linuxhandbook.com/create-systemd-services/)
+- Docker Webhooks: [Docker Docs - Webhook](https://docs.docker.com/docker-hub/repos/manage/webhooks/)
+
+
 ## Part 1 - Script Setup
 ### EC2 Instance Details:
 - Amazon Linux AMI
@@ -13,10 +32,11 @@
         - ICMP From WSU
         - HTTP 80 from anywhere
         - HTTP 8080 from anywhere
+        - TCP Port 9000 from anywhere
     - Justification:
         - Web server, we need to allow http
         - SSH and ICMP for my own interaction and testing
-        - TODO Allow whatever request WebHooks need to come through
+        - Allow webhook traffic (anywhere, webhook verifies the request)
 
 
 ### Docker Setup
@@ -51,24 +71,6 @@ Testing
 Link to Bash Script: [DockerSwap](deployment/DockerSwap.sh)
 
 ## Part 2 - Listen
-Documenation
-
-In README-CD.md, include the following details:
-
-    Configuring a webhook Listener on EC2 Instance
-        How to install adnanh's webhook to the EC2 instance
-        How to verify successful installation
-        Summary of the webhook definition file
-        How to verify definition file was loaded by webhook
-        How to verify webhook is receiving payloads that trigger it
-            how to monitor logs from running webhook
-            what to look for in docker process views
-        LINK to definition file in repository
-    Configure a webhook Service on EC2 Instance
-        Summary of webhook service file contents
-        How to enable and start the webhook service
-        How to verify webhook service is capturing payloads and triggering bash script
-        LINK to service file in repository
 
 ### Configuring a webhook Listener on EC2 Instance
 How to install adnanh's webhook to the instance:

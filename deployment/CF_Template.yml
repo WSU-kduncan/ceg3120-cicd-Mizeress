@@ -75,6 +75,10 @@ Resources:
           FromPort: 8080
           ToPort: 8080
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp # Allow port 9000 for webhook from anywhere
+          FromPort: 9000
+          ToPort: 9000
+          CidrIp: 0.0.0.0/0
 
   # Subnet
   Subnet:
@@ -188,6 +192,9 @@ Resources:
           # tar -xzf webhook-linux-amd64.tar.gz
           # Move webhook to /usr/local/bin
           # mv webhook-linux-amd64/webhook /usr/local/bin/
+
+          # Pull definition and service file from github and place in locations
+          # Set Permissions and start + enable service
 
 
 
