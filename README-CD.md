@@ -86,8 +86,7 @@ Verify Install:
 
 Webhook Definition File:
 - Named `redeploy-webhook`, this hook runs the DockerSwap script to swap the running image with the latest image available on dockerhub.
-- Checks that the repository name matches my expected repo before triggering.
-- TODO add some verification that the request comes from dockerhub
+- Checks that the repository name matches my expected repo before triggering. Verifies that the request matches that expected from docker.
 
 Verify webhook loads the file:
 - `webhook -hooks /etc/webhook.conf -verbose`
@@ -95,7 +94,7 @@ Verify webhook loads the file:
 
 How to verify webhook is recieving payloads that trigger it:
     - Monitor logs from running webhook (with my setup)
-        - Manual command: $ `/path/to/webhook -hooks hooks.json -verbose` and monitor output
+        - Manual command: $ `/path/to/webhook -hooks hooks.json -verbose` and monitor output with docker push or manual request
     - What to look for in docker process views
         - Look for containers that have been newly created. This verifies that the swap script has recently rolled over the running container. 
     - [Definition File](/deployment/hooks.json)
@@ -113,3 +112,11 @@ Configure a webhook service file:
         - My service log: `tail -f /var/log/webhook.log`
     - [Service File](deployment/web-hook.service)
 
+## Part 3 - Payload
+
+- Docker sends the payload - we want to trigger CD when a new docker container is available, so Docker is the better choice. 
+- Docker repo > webhooks > `http://3.233.6.173:9000/hooks/redeploy-webhook`
+- Triggers when a new tag is pushed to the repo
+- Listener triggers if the repo name in the request body matches the expected name.
+- Listen to incoming requests and watch webhook -verbose logs. 
+- Send a curl request with improper formatting and ensure it fails. 
