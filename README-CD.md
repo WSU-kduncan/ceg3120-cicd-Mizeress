@@ -120,3 +120,4 @@ Configure a webhook service file:
 - Listener triggers if the repo name in the request body matches the expected name.
 - Listen to incoming requests and watch webhook -verbose logs. 
 - Send a curl request with improper formatting and ensure it fails. 
+    - Fails: `curl http://3.233.6.173:9000/hooks/redeploy-webhook`
