@@ -186,7 +186,11 @@ Resources:
           ToPort: -1
           CidrIp: 174.101.81.126/32 # Home IP
 
-        # TODO Add HTTPS
+                # Allow Webhook
+        - IpProtocol: tcp
+          FromPort: '9000'
+          ToPort: '9000'
+          CidrIp: 0.0.0.0/0 # Allow webhook from anywhere
 
       Tags: 
         - Key: Name
@@ -209,12 +213,6 @@ Resources:
           FromPort: '80'
           ToPort: '80'
           CidrIp: 192.168.0.0/23 # VPC Cidr
-
-        # Allow Webhook
-        - IpProtocol: tcp
-          FromPort: '9000'
-          ToPort: '9000'
-          CidrIp: 0.0.0.0/0 # Allow webhook from anywhere
 
       Tags: 
         - Key: Name
