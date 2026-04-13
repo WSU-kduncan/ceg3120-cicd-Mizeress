@@ -1,0 +1,14 @@
+Host webserv1
+    Hostname webserv1
+    User ec2-user
+    IdentityFile ~/.ssh/Key.pem
+
+Host webserv2
+        Hostname webserv2
+        User ec2-user
+        IdentityFile ~/.ssh/Key.pem
+
+Host webserv3
+        Hostname webserv3
+        User ec2-user
+        IdentityFile ~/.ssh/Key.pem
