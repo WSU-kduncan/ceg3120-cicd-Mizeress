@@ -210,7 +210,11 @@ Resources:
           ToPort: '80'
           CidrIp: 192.168.0.0/23 # VPC Cidr
 
-        # TODO Add HTTPS
+        # Allow Webhook
+        - IpProtocol: tcp
+          FromPort: '9000'
+          ToPort: '9000'
+          CidrIp: 0.0.0.0/0 # Allow webhook from anywhere
 
       Tags: 
         - Key: Name
@@ -241,13 +245,19 @@ Resources:
             #!/bin/bash -xe
             dnf update && \
             dnf install haproxy -y && \
+            wget -O /etc/haproxy/haproxy.cfg https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/Bonus/Bonus/haproxy.cfg && \
             systemctl start haproxy && systemctl enable haproxy && \
             hostnamectl set-hostname proxy && \
             wget https://github.com/adnanh/webhook/releases/download/2.8.3/webhook-linux-amd64.tar.gz && \
             tar -xzf webhook-linux-amd64.tar.gz && \
             mv webhook-linux-amd64/webhook /usr/local/bin/ && \
             chmod +x /usr/local/bin/webhook && \
-            
+            wget -O /usr/local/bin/updateServers https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/Bonus/Bonus/updateServers.sh && \
+            chmod +x /usr/local/bin/updateServers && \
+            wget -O /home/ec2-user/.ssh/config https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/Bonus/Bonus/ssh_config && \
+            chmod 600 /home/ec2-user/.ssh/config && chown ec2-user:ec2-user /home/ec2-user/.ssh/config && \
+            wget -O /home/ec2-user/hooks.json https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/Bonus/Bonus/UpdatedHooks.json && \
+            chmod 600 /home/ec2-user/hooks.json && chown ec2-user:ec2-user /home/ec2-user/hooks.json && \
             wget -O /etc/systemd/system/webhook.service https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/main/deployment/web-hook.service && \
             systemctl daemon-reload && \
             systemctl start webhook && systemctl enable webhook && \
@@ -284,7 +294,7 @@ Resources:
             systemctl start docker && systemctl enable docker && \
             hostnamectl set-hostname WebServ1 && \
             docker pull malliasm/portfolio && \
-            docker run -d --restart=always -p 80:80 malliasm/portfolio && \
+            docker run -d --restart=always -p 80:80 --name portfolio malliasm/portfolio && \
             wget -O /usr/local/bin/DockerSwap https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/main/deployment/DockerSwap.sh && \
             chmod +x /usr/local/bin/DockerSwap && \
             reboot
@@ -320,7 +330,7 @@ Resources:
             systemctl start docker && systemctl enable docker && \
             hostnamectl set-hostname WebServ2 && \
             docker pull malliasm/portfolio && \
-            docker run -d --restart=always -p 80:80 malliasm/portfolio && \
+            docker run -d --restart=always -p 80:80 --name portfolio malliasm/portfolio && \
             wget -O /usr/local/bin/DockerSwap https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/main/deployment/DockerSwap.sh && \
             chmod +x /usr/local/bin/DockerSwap && \
             reboot
@@ -357,7 +367,7 @@ Resources:
             systemctl start docker && systemctl enable docker && \
             hostnamectl set-hostname WebServ3 && \
             docker pull malliasm/portfolio && \
-            docker run -d --restart=always -p 80:80 malliasm/portfolio && \
+            docker run -d --restart=always -p 80:80 --name portfolio malliasm/portfolio && \
             wget -O /usr/local/bin/DockerSwap https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/main/deployment/DockerSwap.sh && \
             chmod +x /usr/local/bin/DockerSwap && \
             reboot
