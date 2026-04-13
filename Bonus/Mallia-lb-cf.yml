@@ -336,7 +336,7 @@ Resources:
             dnf update
             dnf install -y docker
             systemctl start docker && systemctl enable docker
-            hostnamectl set-hostname WebServ1
+            hostnamectl set-hostname WebServ2
             docker pull malliasm/portfolio
             docker run -d --restart=always -p 80:80 --name portfolio malliasm/portfolio
             wget -O /usr/local/bin/DockerSwap https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/main/deployment/DockerSwap.sh
@@ -374,7 +374,7 @@ Resources:
             dnf update
             dnf install -y docker
             systemctl start docker && systemctl enable docker
-            hostnamectl set-hostname WebServ1
+            hostnamectl set-hostname WebServ3
             docker pull malliasm/portfolio
             docker run -d --restart=always -p 80:80 --name portfolio malliasm/portfolio
             wget -O /usr/local/bin/DockerSwap https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/main/deployment/DockerSwap.sh
