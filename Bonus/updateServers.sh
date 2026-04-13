@@ -5,5 +5,5 @@ servers=("webserv1" "webserv2" "webserv3") # Replace with your SSH config names
 
 for server in "${servers[@]}"; do
     echo "Updating $server..."
-    ssh "$server" 'bash -s' < DockerSwap -i malliasm/portfolio -c portfolio
+    ssh "$server" "/usr/local/bin/DockerSwap -i malliasm/portfolio -c portfolio"
 done
