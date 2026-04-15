@@ -7,6 +7,12 @@ Load balance between three Web Server instances. Enable continuous deployment th
 
 ## Setup Notes: 
 - Add PK to proxy for web servers as Key.pem in `/home/ec2-user/.ssh`
+- Run the following to add the webservers to known hosts. Without this update scripts will fail:  
+    ```
+    ssh-keyscan webserv1 >> ~/.ssh/known_hosts
+    ssh-keyscan webserv2 >> ~/.ssh/known_hosts
+    ssh-keyscan webserv3 >> ~/.ssh/known_hosts
+    ```
 - Send webhook to proxy URL
 - In real world solution should use different keys for servers so proxy PK key isn't on proxy
 
