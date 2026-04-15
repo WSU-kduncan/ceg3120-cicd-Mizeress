@@ -63,3 +63,12 @@ Web Servers
     - Get the `DockerSwap` script
     - Enable nonsudo control of Docker
 
+### Pipeline Explanation
+The project functions as follows:
+- A Git Tag is pushed to github with the format `v.*.*.*`
+- A github action builds the web content from the repo and pushes three tags to dockerhub, maj, maj.min, and latest.
+- Docker triggers a webhook and sends to proxy instance
+- Webhook recieves webhook and verifies the payload
+- Webhook calls updateServers
+- updateServers uses SSH on the three instances to trigger the DockerSwap command to run
+- WebServers pull the new latest image from docker, delete the website process, and starts a new process.
