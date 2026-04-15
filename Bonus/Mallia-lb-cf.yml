@@ -6,7 +6,10 @@ Parameters:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
     Type: 'AWS::EC2::KeyPair::KeyName'
     ConstraintDescription: must be the name of an existing EC2 KeyPair.
-  # Removed SSH location, it's useless
+  ServerKey:
+    Description: Name of an existing EC2 KeyPair for use of accessing the private server instances
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    ConstraintDescription: must be the name of an existing EC2 KeyPair
 Mappings:
   AWSRegionAMI: # AMI for Ubuntu server in each supported region 
     us-east-1:   # N. Virginia
@@ -275,7 +278,7 @@ Resources:
     Properties:
       ImageId: !FindInMap [AWSRegionAMI, !Ref "AWS::Region", HVM64]
       InstanceType: t2.micro
-      KeyName: !Ref KeyName
+      KeyName: !Ref ServerKey
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
@@ -312,7 +315,7 @@ Resources:
     Properties:
       ImageId: !FindInMap [AWSRegionAMI, !Ref "AWS::Region", HVM64]
       InstanceType: t2.micro
-      KeyName: !Ref KeyName
+      KeyName: !Ref ServerKey
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
@@ -350,7 +353,7 @@ Resources:
     Properties:
       ImageId: !FindInMap [AWSRegionAMI, !Ref "AWS::Region", HVM64]
       InstanceType: t2.micro
-      KeyName: !Ref KeyName
+      KeyName: !Ref ServerKey
       Tags:
         - Key: Application
           Value: !Ref 'AWS::StackId'
