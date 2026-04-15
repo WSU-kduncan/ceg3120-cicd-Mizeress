@@ -4,6 +4,7 @@
 Load balance between three Web Server instances. Enable continuous deployment through Github Actions, Docker Webhook, & Ananh's Webhook. 
 
 ## Diagram
+![ProjectDiagram](/Bonus/LB-CD_Diagram.draw.io.png)
 
 ## Setup Notes: 
 - Add PK to proxy for web servers as Key.pem in `/home/ec2-user/.ssh`
