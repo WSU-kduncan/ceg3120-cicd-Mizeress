@@ -259,6 +259,7 @@ Resources:
             tar -xzf webhook-linux-amd64.tar.gz
             mv webhook-linux-amd64/webhook /usr/local/bin/
             chmod +x /usr/local/bin/webhook
+            mkdir /var/webhook
             wget -O /usr/local/bin/updateServers https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/Bonus/Bonus/updateServers.sh
             chmod +x /usr/local/bin/updateServers
             wget -O /home/ec2-user/hooks.json https://raw.githubusercontent.com/WSU-kduncan/ceg3120-cicd-Mizeress/refs/heads/Bonus/Bonus/UpdatedHooks.json
