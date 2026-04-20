@@ -1,7 +1,7 @@
 # Load Balancer CD
 
 ## Project Overview
-Load balance between three Web Server instances. Enable continuous deployment through Github Actions, Docker Webhook, & Ananh's Webhook. 
+Load balance between three Web Server instances. Enable continuous deployment through Github Actions, Docker Webhook, & Adnanh's Webhook. 
 
 ## Diagram
 ![ProjectDiagram](/Bonus/LB-CD_Diagram.drawio.png)
