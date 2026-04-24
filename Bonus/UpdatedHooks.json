@@ -1,0 +1,23 @@
+[
+    {
+        "id": "redeploy-webhook",
+        "execute-command": "/usr/local/bin/updateServers",
+        "command-working-directory": "/var/webhook",
+        "response-message": "Executing deploy script\n",
+        "trigger-rule": {
+            "and": [
+                {
+                    "match": {
+                        "type": "value",
+                        "value": "malliasm/portfolio",
+                        "parameter": {
+                            "source": "payload",
+                            "name": "repository.repo_name"                        
+                        }
+                    }   
+                }
+
+            ]        
+        }
+    }
+]
